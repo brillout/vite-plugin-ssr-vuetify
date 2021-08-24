@@ -1,14 +1,13 @@
 <template>
-  <h1>Welcome</h1>
-  This page is:
-  <ul>
-    <li>Rendered to HTML.</li>
-    <li>Interactive. <Counter /></li>
-  </ul>
+  <v-app>
+    <v-main>
+      <h1>He</h1>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
 import Counter from './_components/Counter.vue'
 const components = { Counter }
-export default { components }
+export default { components, data: () => ({}) }
 </script>

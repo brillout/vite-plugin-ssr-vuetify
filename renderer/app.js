@@ -1,5 +1,6 @@
 import { createSSRApp, h } from 'vue'
 import PageLayout from './PageLayout.vue'
+import vuetify from './vuetify'
 
 export { createApp }
 
@@ -20,6 +21,8 @@ function createApp(pageContext) {
   }
 
   const app = createSSRApp(PageWithLayout)
+
+  app.use(vuetify)
 
   // We make `pageContext.routeParams` available in all components as `$routeParams`
   // (e.g. `$routeParams.movieId` for a Route String `/movie/:movieId`).
