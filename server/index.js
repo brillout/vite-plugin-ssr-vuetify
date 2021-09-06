@@ -1,38 +1,39 @@
-const express = require('express')
-const { createPageRender } = require('vite-plugin-ssr')
+import express from "express";
+import vite from "vite";
+import { createPageRender } from "vite-plugin-ssr";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-const isProduction = process.env.NODE_ENV === 'production'
-const root = `${__dirname}/..`
+const isProduction = process.env.NODE_ENV === "production";
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const root = `${__dirname}/..`;
 
-startServer()
+startServer();
 
 async function startServer() {
-  const app = express()
+  const app = express();
 
-  let viteDevServer
+  let viteDevServer;
   if (isProduction) {
-    app.use(express.static(`${root}/dist/client`, { index: false }))
+    app.use(express.static(`${root}/dist/client`, { index: false }));
   } else {
-    const vite = require('vite')
     viteDevServer = await vite.createServer({
       root,
-      server: { middlewareMode: true }
-    })
-    app.use(viteDevServer.middlewares)
+      server: { middlewareMode: true },
+    });
+    app.use(viteDevServer.middlewares);
   }
 
-  const renderPage = createPageRender({ viteDevServer, isProduction, root })
-  app.get('*', async (req, res, next) => {
-    const url = req.originalUrl
-    const pageContext = {
-      url
-    }
-    const result = await renderPage(pageContext)
-    if (result.nothingRendered) return next()
-    res.status(result.statusCode).send(result.renderResult)
-  })
+  const renderPage = createPageRender({ viteDevServer, isProduction, root });
+  app.get("*", async (req, res, next) => {
+    const url = req.originalUrl;
+    const pageContext = { url };
+    const result = await renderPage(pageContext);
+    if (result.nothingRendered) return next();
+    res.status(result.statusCode).send(result.renderResult);
+  });
 
-  const port = process.env.PORT || 3000
-  app.listen(port)
-  console.log(`Server running at http://localhost:${port}`)
+  const port = 3000;
+  app.listen(port);
+  console.log(`Server running at http://localhost:${port}`);
 }

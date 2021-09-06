@@ -6,6 +6,7 @@
     "server": "node ./server",
     "server:prod": "cross-env NODE_ENV=production node ./server"
   },
+  "type": "module",
   "dependencies": {
     "@mdi/font": "5.9.55",
     "@vitejs/plugin-vue": "^1.6.0",
